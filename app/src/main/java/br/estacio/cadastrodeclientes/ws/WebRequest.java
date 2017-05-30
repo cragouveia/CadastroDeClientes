@@ -84,7 +84,7 @@ public class WebRequest {
             jsonObject.put("endereco", cliente.getEndereco());
             jsonObject.put("numero", cliente.getNumero());
             jsonObject.put("sexo", cliente.getSexo());
-            jsonObject.put("estadoCivil", cliente.getEstadoCivil());
+            jsonObject.put("estadoCivil", cliente.getEstadoCivil().name());
             URL url = new URL(BASE_URL + SAVE_CLIENTE);
             return sendRequest(url, "POST", jsonObject);
         }
