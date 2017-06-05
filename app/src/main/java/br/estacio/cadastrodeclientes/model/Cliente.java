@@ -1,7 +1,11 @@
 package br.estacio.cadastrodeclientes.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import java.io.Serializable;
 import java.util.Calendar;
+
+import br.estacio.cadastrodeclientes.util.ImageUtil;
 
 /**
  * Created by carlos on 27/03/17.
@@ -10,17 +14,28 @@ import java.util.Calendar;
 public class Cliente implements Serializable {
 
     private long id;
+    private String chave;
     private String nome;
     private String email;
     private Calendar dataNasc;
     private String fone;
-    private String CEP;
+    private String cep;
     private String endereco;
     private String numero;
     private String cidade;
     private int sexo;
     private String caminhoFoto;
     private EstadoCivil estadoCivil;
+    private String image;
+    @JsonIgnore
+    private boolean novo;
+    @JsonIgnore
+    private boolean importing;
+
+    public Cliente() {
+        novo = false;
+        importing = false;
+    }
 
     public long getId() {
         return id;
@@ -28,6 +43,14 @@ public class Cliente implements Serializable {
 
     public void setId(long id) {
         this.id = id;
+    }
+
+    public String getChave() {
+        return chave;
+    }
+
+    public void setChave(String chave) {
+        this.chave = chave;
     }
 
     public String getNome() {
@@ -54,12 +77,12 @@ public class Cliente implements Serializable {
         this.fone = fone;
     }
 
-    public String getCEP() {
-        return CEP;
+    public String getCep() {
+        return cep;
     }
 
-    public void setCEP(String CEP) {
-        this.CEP = CEP;
+    public void setCep(String cep) {
+        this.cep = cep;
     }
 
     public String getEndereco() {
@@ -116,6 +139,33 @@ public class Cliente implements Serializable {
 
     public void setEstadoCivil(EstadoCivil estadoCivil) {
         this.estadoCivil = estadoCivil;
+    }
+
+    public String getImage() {
+        if (!importing && this.caminhoFoto != null) {
+            image = ImageUtil.bitmapToBase64(caminhoFoto);
+        }
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public boolean isNovo() {
+        return novo;
+    }
+
+    public void setNovo(boolean novo) {
+        this.novo = novo;
+    }
+
+    public boolean isImporting() {
+        return importing;
+    }
+
+    public void setImporting(boolean importing) {
+        this.importing = importing;
     }
 
     @Override

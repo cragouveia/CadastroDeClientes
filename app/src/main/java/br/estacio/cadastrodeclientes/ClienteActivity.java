@@ -11,12 +11,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
-import android.widget.EditText;
-import android.widget.Toast;
 
 import java.io.File;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
+
+import br.estacio.cadastrodeclientes.util.ImageFilePath;
 
 public class ClienteActivity extends AppCompatActivity
         implements DatePickerDialog.OnDateSetListener {
@@ -52,8 +50,7 @@ public class ClienteActivity extends AppCompatActivity
                 Intent intent = new Intent();
                 intent.setType("image/*");
                 intent.setAction(Intent.ACTION_GET_CONTENT);
-                startActivityForResult(Intent.createChooser(intent,
-                        "Selecionar Imagem"), ESCOLHER_FOTO);
+                startActivityForResult(Intent.createChooser(intent, "Selecionar Imagem"), ESCOLHER_FOTO);
                 return true;
             }
         });
@@ -61,20 +58,16 @@ public class ClienteActivity extends AppCompatActivity
         camera.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem item) {
-                localArquivoFoto = getExternalFilesDir(null) + "/" +
-                        System.currentTimeMillis() + ".jpg";
-                Intent intentCamera = new Intent(
-                        MediaStore.ACTION_IMAGE_CAPTURE);
-                intentCamera.putExtra(MediaStore.EXTRA_OUTPUT,
-                        Uri.fromFile(new File(localArquivoFoto)));
+                localArquivoFoto = getExternalFilesDir(null) + "/" + System.currentTimeMillis() + ".png";
+                Intent intentCamera = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                intentCamera.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(new File(localArquivoFoto)));
                 startActivityForResult(intentCamera, TIRAR_FOTO);
                 return false;
             }
         });
     }
 
-    public void onActivityResult(int requestCode, int resultCode,
-                                 Intent data) {
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == RESULT_OK) {
             if (requestCode == ESCOLHER_FOTO) {

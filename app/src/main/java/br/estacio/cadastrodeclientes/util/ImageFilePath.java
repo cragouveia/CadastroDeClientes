@@ -1,4 +1,4 @@
-package br.estacio.cadastrodeclientes;
+package br.estacio.cadastrodeclientes.util;
 
 /**
  * Created by carlos on 6/3/15.

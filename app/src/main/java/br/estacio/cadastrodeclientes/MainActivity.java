@@ -17,6 +17,9 @@ import java.util.List;
 import br.estacio.cadastrodeclientes.adapter.ClienteAdapater;
 import br.estacio.cadastrodeclientes.dao.ClienteDAO;
 import br.estacio.cadastrodeclientes.model.Cliente;
+import br.estacio.cadastrodeclientes.task.DeleteClienteTask;
+import br.estacio.cadastrodeclientes.task.ListaClienteTask;
+import br.estacio.cadastrodeclientes.util.Util;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -28,6 +31,14 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        try {
+            if (Util.isConnected(this)) {
+                new ListaClienteTask(this).execute();
+            }
+        }
+        catch(Exception e){
+        }
 
         listaCliente = (ListView) findViewById(R.id.listaCliente);
         listaCliente.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -51,7 +62,6 @@ public class MainActivity extends AppCompatActivity {
         });
 
         registerForContextMenu(listaCliente);
-
     }
 
     @Override
@@ -61,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    private void carregaLista() {
+    public void carregaLista() {
         ClienteDAO dao = new ClienteDAO(this);
         clientes = dao.list();
         dao.close();
@@ -94,11 +104,14 @@ public class MainActivity extends AppCompatActivity {
                             clienteSelecionado.getNome()));
             dialogBuilder.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int whichButton) {
+/*
                     ClienteDAO dao = new ClienteDAO(MainActivity.this);
                     dao.delete(clienteSelecionado.getId());
                     dao.close();
                     carregaLista();
+*/
                     dialog.cancel();
+                    new DeleteClienteTask(MainActivity.this, clienteSelecionado).execute();
                 }
             });
             dialogBuilder.setNegativeButton("Não", new DialogInterface.OnClickListener() {

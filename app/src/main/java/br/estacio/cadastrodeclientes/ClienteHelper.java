@@ -97,7 +97,6 @@ public class ClienteHelper {
                     }
                     new SaveClienteTask(activity, cliente).execute();
                     dao.close();
-                    activity.finish();
                 }
             }
         });
@@ -110,6 +109,7 @@ public class ClienteHelper {
         }
         else {
             cliente = new Cliente();
+            cliente.setNovo(true);
         }
     }
 
@@ -117,7 +117,7 @@ public class ClienteHelper {
         cliente.setNome(edtNome.getText().toString());
         cliente.setEmail(edtMail.getText().toString());
         cliente.setFone(edtFone.getText().toString());
-        cliente.setCEP(edtCEP.getText().toString());
+        cliente.setCep(edtCEP.getText().toString());
         cliente.setEndereco(edtEndereco.getText().toString());
         cliente.setNumero(edtNumero.getText().toString());
         cliente.setCidade(edtCidade.getText().toString());
@@ -133,7 +133,7 @@ public class ClienteHelper {
         edtNome.setText(cliente.getNome());
         edtMail.setText(cliente.getEmail());
         edtFone.setText(cliente.getFone());
-        edtCEP.setText(cliente.getCEP());
+        edtCEP.setText(cliente.getCep());
         edtEndereco.setText(cliente.getEndereco());
         edtNumero.setText(cliente.getNumero());
         edtCidade.setText(cliente.getCidade());
@@ -167,10 +167,9 @@ public class ClienteHelper {
     public void setImage(String localArquivoFoto) {
         if (localArquivoFoto != null) {
             Bitmap imagemFoto = BitmapFactory.decodeFile(localArquivoFoto);
-            Bitmap imagemFotoReduzida = Bitmap
-                    .createScaledBitmap(imagemFoto, imagemFoto.getWidth(),
-                            300, true);
-            foto.setImageBitmap(imagemFotoReduzida);
+            //Bitmap imagemFotoReduzida = Bitmap.createScaledBitmap(imagemFoto, imagemFoto.getWidth(), 300, true);
+            //Bitmap imagemFotoReduzida = Bitmap.createBitmap(imagemFoto);
+            foto.setImageBitmap(imagemFoto);
             foto.setTag(localArquivoFoto);
             foto.setScaleType(ImageView.ScaleType.FIT_XY);
         }
